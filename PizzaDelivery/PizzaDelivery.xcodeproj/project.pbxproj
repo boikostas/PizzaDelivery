@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2971F90D2CB6BE55005E430F /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 2971F90C2CB6BE55005E430F /* Swinject */; };
 		299210872CB6A3CD00BA4E54 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 299210862CB6A3CD00BA4E54 /* FirebaseAuth */; };
 		299210892CB6A3CD00BA4E54 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 299210882CB6A3CD00BA4E54 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 			files = (
 				299210872CB6A3CD00BA4E54 /* FirebaseAuth in Frameworks */,
 				299210892CB6A3CD00BA4E54 /* FirebaseFirestore in Frameworks */,
+				2971F90D2CB6BE55005E430F /* Swinject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +76,7 @@
 			packageProductDependencies = (
 				299210862CB6A3CD00BA4E54 /* FirebaseAuth */,
 				299210882CB6A3CD00BA4E54 /* FirebaseFirestore */,
+				2971F90C2CB6BE55005E430F /* Swinject */,
 			);
 			productName = PizzaDelivery;
 			productReference = 299210722CB6A0C500BA4E54 /* PizzaDelivery.app */;
@@ -105,6 +108,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				299210852CB6A3CD00BA4E54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				2971F90B2CB6BE55005E430F /* XCRemoteSwiftPackageReference "Swinject" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 299210732CB6A0C500BA4E54 /* Products */;
@@ -338,6 +342,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2971F90B2CB6BE55005E430F /* XCRemoteSwiftPackageReference "Swinject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Swinject/Swinject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.9.1;
+			};
+		};
 		299210852CB6A3CD00BA4E54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -349,6 +361,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2971F90C2CB6BE55005E430F /* Swinject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2971F90B2CB6BE55005E430F /* XCRemoteSwiftPackageReference "Swinject" */;
+			productName = Swinject;
+		};
 		299210862CB6A3CD00BA4E54 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 299210852CB6A3CD00BA4E54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

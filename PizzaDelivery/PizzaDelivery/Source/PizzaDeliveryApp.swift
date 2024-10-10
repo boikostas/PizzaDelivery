@@ -14,7 +14,8 @@ struct PizzaDeliveryApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+//            AppMain(viewModel: AppViewModel(appDelegate: appDelegate))
+            MapScreen()
         }
     }
 }
