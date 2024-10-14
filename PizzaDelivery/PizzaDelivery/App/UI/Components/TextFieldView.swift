@@ -51,6 +51,10 @@ struct TextFieldView: View {
             }
             .padding(.horizontal)
         }
+        .animation(.none, value: isTextFieldFocused)
+        .onTapGesture {
+            isTextFieldFocused = true
+        }
     }
 }
 

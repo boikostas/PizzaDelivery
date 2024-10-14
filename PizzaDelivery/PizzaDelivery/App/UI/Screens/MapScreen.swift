@@ -52,8 +52,9 @@ struct MapScreen: View {
                     Spacer()
                     addressSection
                         .keyboardHeight($keyboardHeight)
-                        .animation(.easeInOut(duration: 0.22), value: keyboardHeight)
-                        .offset(y: keyboardHeight == 0 ? 0 : -keyboardHeight + 40)
+                        .animation(.easeOut(duration: 0.27), value: keyboardHeight)
+//                        .offset(y: keyboardHeight == 0 ? 0 : -keyboardHeight + 40)
+                        .padding(.bottom, keyboardHeight == 0 ? 0 : keyboardHeight - 40)
                 }
             }
         }
@@ -158,6 +159,7 @@ struct MapScreen: View {
                     
                     TextFieldView(text: $commentText, placeholder: "Comment")
                         .focused($focusedField, equals: .comment)
+                        .submitLabel(.done)
                         .onSubmit {
                             focusedField = nil
                         }
