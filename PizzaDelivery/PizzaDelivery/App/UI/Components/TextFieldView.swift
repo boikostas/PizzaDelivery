@@ -33,7 +33,6 @@ struct TextFieldView: View {
                     TextField("", text: $text)
                         .focused($isTextFieldFocused)
                         .tint(Asset.Colors.orange)
-                        .submitLabel(.next)
                 }
                 
                 ZStack {

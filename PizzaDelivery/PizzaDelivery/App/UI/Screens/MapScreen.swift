@@ -53,7 +53,6 @@ struct MapScreen: View {
                     addressSection
                         .keyboardHeight($keyboardHeight)
                         .animation(.easeOut(duration: 0.27), value: keyboardHeight)
-//                        .offset(y: keyboardHeight == 0 ? 0 : -keyboardHeight + 40)
                         .padding(.bottom, keyboardHeight == 0 ? 0 : keyboardHeight - 40)
                 }
             }
@@ -63,14 +62,60 @@ struct MapScreen: View {
             ToolbarItem(placement: .keyboard) {
                 HStack {
                     Spacer()
-                    Text("Done")
-                        .fontWeight(.semibold)
-                        .foregroundStyle(Asset.Colors.orange)
-                        .onTapGesture {
-                            focusedField = nil
+                    
+                    HStack(spacing: 10) {
+                        Button {
+                            goToPreviousTextField()
+                        } label: {
+                            Image(systemName: "chevron.up")
                         }
+                        .disabled(focusedField == .address)
+                        
+                        Button {
+                            goToNextTextField()
+                        } label: {
+                            Image(systemName: "chevron.down")
+                        }
+                        .disabled(focusedField == .comment)
+                    }
+                    .fontWeight(.semibold)
+                    .tint(Asset.Colors.orange)
                 }
             }
+        }
+    }
+    
+    private func goToNextTextField() {
+        switch focusedField {
+        case .address:
+            focusedField = .locationName
+        case .locationName:
+            focusedField = .floor
+        case .floor:
+            focusedField = .apartment
+        case .apartment:
+            focusedField = .comment
+        case .comment:
+            break
+        case .none:
+            break
+        }
+    }
+    
+    private func goToPreviousTextField() {
+        switch focusedField {
+        case .address:
+            break
+        case .locationName:
+            focusedField = .address
+        case .floor:
+            focusedField = .locationName
+        case .apartment:
+            focusedField = .floor
+        case .comment:
+            focusedField = .apartment
+        case .none:
+            break
         }
     }
     
@@ -134,35 +179,20 @@ struct MapScreen: View {
                 VStack(spacing: 10) {
                     TextFieldView(text: $addreessText, placeholder: "Address")
                         .focused($focusedField, equals: .address)
-                        .onSubmit {
-                            focusedField = .locationName
-                            
-                        }
+                    
                     TextFieldView(text: $locationNameText, placeholder: "Location name")
                         .focused($focusedField, equals: .locationName)
-                        .onSubmit {
-                            focusedField = .floor
-                        }
                     
                     HStack(spacing: 10) {
                         TextFieldView(text: $floorText, placeholder: "Floor")
                             .focused($focusedField, equals: .floor)
-                            .onSubmit {
-                                focusedField = .apartment
-                            }
+                        
                         TextFieldView(text: $apartmentText, placeholder: "Apartment")
                             .focused($focusedField, equals: .apartment)
-                            .onSubmit {
-                                focusedField = .comment
-                            }
                     }
                     
                     TextFieldView(text: $commentText, placeholder: "Comment")
                         .focused($focusedField, equals: .comment)
-                        .submitLabel(.done)
-                        .onSubmit {
-                            focusedField = nil
-                        }
                 }
                 
                 ZStack {

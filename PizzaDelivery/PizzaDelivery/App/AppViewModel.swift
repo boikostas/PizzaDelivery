@@ -44,7 +44,7 @@ class AppViewModel: ObservableObject {
                 }
                 
                 if !isAuthenticated {
-                    guard let user = firebaseRepo.signInAnonymously() else { return }
+                    guard let _ = firebaseRepo.signInAnonymously() else { return }
                 }
             }
             .store(in: &cancellables)
