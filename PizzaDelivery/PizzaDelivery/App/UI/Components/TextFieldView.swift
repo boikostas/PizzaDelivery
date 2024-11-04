@@ -23,7 +23,7 @@ struct TextFieldView: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(lineWidth: 0.5)
                 .fill(Asset.Colors.textSecondary)
-                .frame(height: 55)
+                .frame(height: 50)
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(placeholder)
@@ -52,7 +52,7 @@ struct TextFieldView: View {
         }
         .background(
             Rectangle()
-                .frame(height: 60)
+                .frame(height: 55)
                 .opacity(0.0001)
             )
         .animation(.none, value: isTextFieldFocused)

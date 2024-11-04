@@ -135,7 +135,7 @@ struct MapScreen: View {
                 .frame(width: 45, height: 45)
             Image(systemName: "xmark")
                 .foregroundStyle(Asset.Colors.foregroundPrimary)
-                .font(.title3)
+                .font(.system(size: 18))
         }
         .onTapGesture {
             coordinator.pop()
@@ -155,7 +155,7 @@ struct MapScreen: View {
                         .font(.system(size: 16))
                         .fontWeight(.medium)
                         .foregroundStyle(Asset.Colors.white)
-                    }, color: Asset.Colors.orange, hPadding: 15)
+                    }, color: Asset.Colors.orange, hPadding: 20, vPadding: 8)
                 }, color: Asset.Colors.backgroundPrimary, hPadding: 2.5, vPadding: 2.5)
                 
                 HStack {
@@ -172,10 +172,10 @@ struct MapScreen: View {
     private var showCurrentLocationButton: some View {
         ZStack {
             Circle().fill(Asset.Colors.backgroundPrimary)
-                .frame(width: 50, height: 50)
+                .frame(width: 45, height: 45)
             Image(systemName: "location.fill")
                 .foregroundStyle(Asset.Colors.foregroundPrimary)
-                .font(.title3)
+                .font(.system(size: 18))
         }
     }
     
@@ -184,7 +184,8 @@ struct MapScreen: View {
             VStack(alignment: .leading, spacing: 15) {
                 ResizebleRectangleView {
                     Text("🇺🇦 Ukraine")
-                        .font(.footnote)
+                        .font(.caption)
+                        .fontWeight(.medium)
                 }
                 
                 VStack(spacing: 10) {
@@ -210,7 +211,7 @@ struct MapScreen: View {
                     RoundedRectangle(cornerRadius: .infinity)
                         .fill(Asset.Colors.orange)
                         .frame(height: 55)
-                    Text("Save")
+                    Text("Order here")
                         .foregroundStyle(Asset.Colors.white)
                         .fontWeight(.semibold)
                 }
