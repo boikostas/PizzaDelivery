@@ -6,16 +6,18 @@
 //
 
 import SwiftUI
+import Swinject
 
 @main
 struct PizzaDeliveryApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+//    @StateObject var coordinator = Coordinator()
+    
     var body: some Scene {
         WindowGroup {
-//            AppMain(viewModel: AppViewModel(appDelegate: appDelegate))
-            MapScreen()
+            CoordinatorView(viewModel: AppViewModel(appDelegate: appDelegate))
         }
     }
 }

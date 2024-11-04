@@ -10,6 +10,10 @@ import MapKit
 
 struct MapScreen: View {
     
+    @ObservedObject var viewModel: MapScreenViewModel
+    
+    @EnvironmentObject private var coordinator: Coordinator
+    
     @FocusState var focusedField: Field?
     
     @State private var keyboardHeight: CGFloat = 0
@@ -59,8 +63,14 @@ struct MapScreen: View {
         }
         .ignoresSafeArea()
         .toolbar {
-            ToolbarItem(placement: .keyboard) {
+            ToolbarItemGroup(placement: .keyboard) {
                 HStack {
+                    Button {
+                        focusedField = nil
+                    } label: {
+                        Text("Done")
+                    }
+                    
                     Spacer()
                     
                     HStack(spacing: 10) {
@@ -78,9 +88,9 @@ struct MapScreen: View {
                         }
                         .disabled(focusedField == .comment)
                     }
-                    .fontWeight(.semibold)
-                    .tint(Asset.Colors.orange)
                 }
+                .fontWeight(.semibold)
+                .tint(Asset.Colors.orange)
             }
         }
     }
@@ -127,6 +137,9 @@ struct MapScreen: View {
                 .foregroundStyle(Asset.Colors.foregroundPrimary)
                 .font(.title3)
         }
+        .onTapGesture {
+            coordinator.dismissFullScreenCover()
+        }
     }
     
     private func deliveryLogo(geometry: GeometryProxy) -> some View {
@@ -140,7 +153,7 @@ struct MapScreen: View {
                             .frame(width: geometry.size.width / 2.5, height: 45)
                         RoundedRectangle(cornerRadius: .infinity)
                             .foregroundStyle(Asset.Colors.orange)
-                            .frame(width: geometry.size.width / 2.5 - 5, height: 45 - 5)
+                            .frame(width: geometry.size.width / 2.5, height: 45 - 5)
                         HStack {
                             Image(systemName: "figure.hiking")
                             Text("Delivery")
@@ -247,6 +260,6 @@ public extension View {
     }
 }
 
-#Preview {
-    MapScreen()
-}
+//#Preview {
+//    MapScreen()
+//}
