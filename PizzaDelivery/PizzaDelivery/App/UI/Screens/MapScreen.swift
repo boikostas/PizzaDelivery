@@ -47,7 +47,7 @@ struct MapScreen: View {
                         .frame(height: addressSectionHeight)
                 }
                 
-                deliveryLogo(geometry: geometry)
+                deliveryLogo
                 
                 Rectangle().fill(Asset.Colors.white)
                     .opacity(keyboardHeight == 0 ? 0 : 0.5)
@@ -138,30 +138,25 @@ struct MapScreen: View {
                 .font(.title3)
         }
         .onTapGesture {
-            coordinator.dismissFullScreenCover()
+            coordinator.pop()
         }
     }
     
-    private func deliveryLogo(geometry: GeometryProxy) -> some View {
+    private var deliveryLogo: some View {
         VStack {
             ZStack {
                 
-                HStack {
-                    ZStack {
-                        RoundedRectangle(cornerRadius: .infinity)
-                            .foregroundStyle(Asset.Colors.backgroundPrimary)
-                            .frame(width: geometry.size.width / 2.5, height: 45)
-                        RoundedRectangle(cornerRadius: .infinity)
-                            .foregroundStyle(Asset.Colors.orange)
-                            .frame(width: geometry.size.width / 2.5, height: 45 - 5)
+                ResizebleRectangleView(content: {
+                    ResizebleRectangleView(content: {
                         HStack {
                             Image(systemName: "figure.hiking")
                             Text("Delivery")
                         }
+                        .font(.system(size: 16))
                         .fontWeight(.medium)
                         .foregroundStyle(Asset.Colors.white)
-                    }
-                }
+                    }, color: Asset.Colors.orange, hPadding: 15)
+                }, color: Asset.Colors.backgroundPrimary, hPadding: 2.5, vPadding: 2.5)
                 
                 HStack {
                     closeButton
@@ -187,7 +182,10 @@ struct MapScreen: View {
     private var addressSection: some View {
             
             VStack(alignment: .leading, spacing: 15) {
-                ResizebleRectangleView(text: "🇺🇦 Ukraine")
+                ResizebleRectangleView {
+                    Text("🇺🇦 Ukraine")
+                        .font(.footnote)
+                }
                 
                 VStack(spacing: 10) {
                     TextFieldView(text: $addreessText, placeholder: "Address")

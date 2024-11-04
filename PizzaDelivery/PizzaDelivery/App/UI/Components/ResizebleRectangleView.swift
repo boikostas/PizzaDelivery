@@ -7,17 +7,20 @@
 
 import SwiftUI
 
-struct ResizebleRectangleView: View {
+struct ResizebleRectangleView<Content: View>: View {
     
-    var text: String
+    @ViewBuilder let content: Content
+    var color: Color = Asset.Colors.backgroundSecondary
+    var hPadding: CGFloat = 10
+    var vPadding: CGFloat = 10
     
     var body: some View {
-        Text(text)
-            .font(.footnote)
-            .padding(10)
+        content
+            .padding(.horizontal, hPadding)
+            .padding(.vertical, vPadding)
             .background(
                 GeometryReader { geometry in
-                    RoundedRectangle(cornerRadius: .infinity).fill(Asset.Colors.backgroundSecondary)
+                    RoundedRectangle(cornerRadius: .infinity).fill(color)
                         .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
                 }
                 

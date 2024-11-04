@@ -18,7 +18,7 @@ struct HomeScreen: View {
             .onTapGesture {
                 if let mapScreenViewModel = viewModel.mapScreenViewModel {
 //                    viewModel.coordinator.present(fullScreenCover: .mapScreen(mapScreenViewModel))
-                    coordinator.present(fullScreenCover: .mapScreen(mapScreenViewModel))
+                    coordinator.push(.mapScreen(mapScreenViewModel))
                 }
             }
             
