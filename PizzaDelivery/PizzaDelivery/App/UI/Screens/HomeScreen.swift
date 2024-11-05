@@ -14,14 +14,15 @@ struct HomeScreen: View {
     @EnvironmentObject private var coordinator: Coordinator
     
     var body: some View {
-        Text("open map")
-            .onTapGesture {
-                if let mapScreenViewModel = viewModel.mapScreenViewModel {
-//                    viewModel.coordinator.present(fullScreenCover: .mapScreen(mapScreenViewModel))
-                    coordinator.push(.mapScreen(mapScreenViewModel))
+        ZStack {
+            Text("open map")
+                .onTapGesture {
+                    if let mapScreenViewModel = viewModel.mapScreenViewModel {
+                        coordinator.push(.mapScreen(mapScreenViewModel))
+                    }
                 }
-            }
-            
+        }
+        
     }
 }
 

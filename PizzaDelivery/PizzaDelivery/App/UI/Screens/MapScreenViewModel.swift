@@ -10,9 +10,12 @@ import Swinject
 
 class MapScreenViewModel: ObservableObject {
     
-//    var coordinator: Coordinator
+    @Published var addreessText: String = ""
+    @Published var locationNameText: String = ""
+    @Published var floorText: String = ""
+    @Published var apartmentText: String = ""
+    @Published var commentText: String = ""
     
     init(dependencies: Resolver) {
-//        self.coordinator = coordinator
     }
 }

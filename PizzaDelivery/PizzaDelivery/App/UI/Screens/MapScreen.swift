@@ -8,46 +8,52 @@
 import SwiftUI
 import MapKit
 
+enum Field: Hashable {
+    case address
+    case locationName
+    case floor
+    case apartment
+    case comment
+}
+
 struct MapScreen: View {
     
     @ObservedObject var viewModel: MapScreenViewModel
     
     @EnvironmentObject private var coordinator: Coordinator
     
-    @FocusState var focusedField: Field?
+    @FocusState private var focusedField: Field?
     
     @State private var keyboardHeight: CGFloat = 0
     @State private var addressSectionHeight: CGFloat = 0
     
-    enum Field: Hashable {
-        case address
-        case locationName
-        case floor
-        case apartment
-        case comment
-    }
     
-    @State var addreessText: String = ""
-    @State var locationNameText: String = ""
-    @State var floorText: String = ""
-    @State var apartmentText: String = ""
-    @State var commentText: String = ""
+    private let pointer = MapPointerView()
     
     var body: some View {
         ZStack {
             GeometryReader { geometry in
                 VStack {
                     ZStack(alignment: .bottomTrailing) {
-                        Map()
-                            .offset(y: 30)
+                        ZStack {
+                            Map()
+                                .offset(y: 30)
+                                .onMapCameraChange {
+                                    pointer.startAnimation()
+                                }
+                            pointer
+                        }
                         showCurrentLocationButton
                             .padding()
+                        
+                        deliveryLogo
                     }
+                    .disabled(keyboardHeight != 0)
+                    
                     Rectangle().fill(.clear)
                         .frame(height: addressSectionHeight)
                 }
                 
-                deliveryLogo
                 
                 Rectangle().fill(Asset.Colors.white)
                     .opacity(keyboardHeight == 0 ? 0 : 0.5)
@@ -189,21 +195,21 @@ struct MapScreen: View {
                 }
                 
                 VStack(spacing: 10) {
-                    TextFieldView(text: $addreessText, placeholder: "Address")
+                    TextFieldView(text: $viewModel.addreessText, placeholder: "Address")
                         .focused($focusedField, equals: .address)
                     
-                    TextFieldView(text: $locationNameText, placeholder: "Location name")
+                    TextFieldView(text: $viewModel.locationNameText, placeholder: "Location name")
                         .focused($focusedField, equals: .locationName)
                     
                     HStack(spacing: 10) {
-                        TextFieldView(text: $floorText, placeholder: "Floor")
+                        TextFieldView(text: $viewModel.floorText, placeholder: "Floor")
                             .focused($focusedField, equals: .floor)
                         
-                        TextFieldView(text: $apartmentText, placeholder: "Apartment")
+                        TextFieldView(text: $viewModel.apartmentText, placeholder: "Apartment")
                             .focused($focusedField, equals: .apartment)
                     }
                     
-                    TextFieldView(text: $commentText, placeholder: "Comment")
+                    TextFieldView(text: $viewModel.commentText, placeholder: "Comment")
                         .focused($focusedField, equals: .comment)
                 }
                 
@@ -258,7 +264,3 @@ public extension View {
         self.modifier(KeyboardProvider(keyboardHeight: state))
     }
 }
-
-//#Preview {
-//    MapScreen()
-//}
