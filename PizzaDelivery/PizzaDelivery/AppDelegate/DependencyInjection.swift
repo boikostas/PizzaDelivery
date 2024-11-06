@@ -17,6 +17,7 @@ extension AppDelegate {
         }.inObjectScope(.container)
     
         registerFirebaseRepo(in: container)
+        registerLocationRepo(in: container)
         
         return container
     }
@@ -30,6 +31,18 @@ extension AppDelegate {
         
         container.register(FirebaseRepository.self) { _ in
             FirebaseRepositoryImpl(dependencies: registeredContainer)
+        }.inObjectScope(.container)
+    }
+    
+    private func registerLocationRepo(in container: Container) {
+        let registeredContainer = Container()
+        
+        registeredContainer.register(LocationRemoteSource.self) { _ in
+            LocationRemoteSourceImpl()
+        }
+        
+        container.register(LocationRepository.self) { _ in
+            LocationRepositoryImpl(dependencies: registeredContainer)
         }.inObjectScope(.container)
     }
 }

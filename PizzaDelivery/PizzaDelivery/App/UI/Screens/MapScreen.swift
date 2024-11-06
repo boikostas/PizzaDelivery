@@ -27,8 +27,8 @@ struct MapScreen: View {
     @State private var keyboardHeight: CGFloat = 0
     @State private var addressSectionHeight: CGFloat = 0
     
-    
-    private let pointer = MapPointerView()
+    @State private var animatePointer: Bool = false
+    @State private var animatePointerCircle: Bool = false
     
     var body: some View {
         ZStack {
@@ -36,11 +36,8 @@ struct MapScreen: View {
                 VStack {
                     ZStack(alignment: .bottomTrailing) {
                         ZStack {
-                            Map()
+                            Map(position: $viewModel.mapCameraPosition)
                                 .offset(y: 30)
-                                .onMapCameraChange {
-                                    pointer.startAnimation()
-                                }
                             pointer
                         }
                         showCurrentLocationButton
@@ -99,6 +96,19 @@ struct MapScreen: View {
                 .tint(Asset.Colors.orange)
             }
         }
+        .onAppear {
+            viewModel.requestAccessToLocation()
+            viewModel.getUserLoction()
+        }
+        .onMapCameraChange { mapCameraUpdateContext in
+            pointer.startAnimation()
+            viewModel.getAddressString(mapCameraUpdateContext.camera.centerCoordinate)
+            
+        }
+    }
+    
+    private var pointer: MapPointerView {
+        MapPointerView(animate: $animatePointer, animateCircle: $animatePointerCircle)
     }
     
     private func goToNextTextField() {
@@ -182,6 +192,11 @@ struct MapScreen: View {
             Image(systemName: "location.fill")
                 .foregroundStyle(Asset.Colors.foregroundPrimary)
                 .font(.system(size: 18))
+        }
+        .onTapGesture {
+            withAnimation {
+                viewModel.getUserLoction()
+            }
         }
     }
     

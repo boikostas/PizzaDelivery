@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MapPointerView: View {
     
-    @State private var animate: Bool = false
-    @State private var animateCircle: Bool = false
+    @Binding var animate: Bool
+    @Binding var animateCircle: Bool
     
     var body: some View {
         ZStack {
@@ -27,9 +27,6 @@ struct MapPointerView: View {
                     .frame(width: 30, height: 30)
             }
             .offset(y: animate ? -20 : 0)
-        }
-        .onTapGesture {
-            startAnimation()
         }
     }
     
@@ -54,6 +51,6 @@ struct MapPointerView: View {
     }
 }
 
-#Preview {
-    MapPointerView()
-}
+//#Preview {
+//    MapPointerView()
+//}
