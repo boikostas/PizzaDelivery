@@ -19,28 +19,34 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     var manager = CLLocationManager()
     @Published var lastKnownLocation: CLLocationCoordinate2D?
     
-    func checkLocationAuthorization() {
+    func checkLocationAuthorization() -> CLAuthorizationStatus {
         manager.delegate = self
         manager.startUpdatingLocation()
         
         switch manager.authorizationStatus {
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
+            return .notDetermined
         case .restricted:
             print("Location access restricted")
+            return .restricted
         case .denied:
             print("Location access denied")
+            return .denied
         case .authorizedAlways:
             print("Location access granted")
+            return .authorizedAlways
         case .authorizedWhenInUse:
             lastKnownLocation = manager.location?.coordinate
+            return .authorizedWhenInUse
         @unknown default:
             print("Location services disabled")
+            return .notDetermined
         }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkLocationAuthorization()
+        _ = checkLocationAuthorization()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -100,7 +106,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     func getLocation(forPlaceCalled name: String,
-                     completion: @escaping(CLLocation?) -> Void) {
+                     completion: @escaping(CLLocationCoordinate2D?) -> Void) {
         
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(name) { placemarks, error in
@@ -123,7 +129,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
                 return
             }
             
-            completion(location)
+            completion(location.coordinate)
         }
     }
     

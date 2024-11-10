@@ -101,7 +101,6 @@ class Coordinator: ObservableObject {
             HomeScreen(viewModel: homeScreenViewModel)
         case .mapScreen(let mapScreenViewModel):
             MapScreen(viewModel: mapScreenViewModel)
-                .transition(.move(edge: .bottom))
                 .toolbarVisibility(.hidden, for: .navigationBar)
         }
     }

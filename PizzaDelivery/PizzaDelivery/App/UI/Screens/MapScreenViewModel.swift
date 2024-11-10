@@ -14,7 +14,7 @@ class MapScreenViewModel: ObservableObject {
     
     @Published var mapCameraPosition: MapCameraPosition = .automatic
     
-    @Published var addreessText: String = ""
+    @Published var addressText: String = ""
     @Published var locationNameText: String = ""
     @Published var floorText: String = ""
     @Published var apartmentText: String = ""
@@ -26,23 +26,36 @@ class MapScreenViewModel: ObservableObject {
         locationRepo = dependencies.resolve(LocationRepository.self)!
     }
     
-    func requestAccessToLocation() {
-        locationRepo.requestAccessToLocation()
+    func isAuthorizationDenied() -> Bool {
+        locationRepo.checkLocationAuthorization() == .denied ? true : false
     }
     
     func getUserLoction() {
-        if let location = locationRepo.getUserLocation() {
-            mapCameraPosition = .region(.init(center: location, latitudinalMeters: 1000, longitudinalMeters: 1000))
-            getAddressString(location)
+        if locationRepo.checkLocationAuthorization() == .authorizedAlways || locationRepo.checkLocationAuthorization() == .authorizedWhenInUse {
+            if let location = locationRepo.getUserLocation() {
+                setMapRegion(from: location)
+            }
         }
     }
     
     func getAddressString(_ location: CLLocationCoordinate2D?) {
         if let location = location {
-            locationRepo.getUserLocationPlaceString(location: .init(latitude: location.latitude, longitude: location.longitude)) { address in
-                self.addreessText = address.address
+            locationRepo.getUserLocationPlaceString(location: .init(latitude: location.latitude, longitude: location.longitude)) { [weak self] address in
+                guard let self else { return }
+                self.addressText = address.address
             }
         }
+    }
+    
+    func getLocationFromString() {
+        locationRepo.getLocation(forPlaceCalled: addressText) { [weak self] location in
+            guard let self, let location else { return }
+            self.setMapRegion(from: location)
+        }
+    }
+    
+    func setMapRegion(from location: CLLocationCoordinate2D) {
+        mapCameraPosition = .region(.init(center: location, latitudinalMeters: 1000, longitudinalMeters: 1000))
     }
     
     

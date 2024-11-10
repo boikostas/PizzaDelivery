@@ -13,8 +13,6 @@ struct PizzaDeliveryApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
-//    @StateObject var coordinator = Coordinator()
-    
     var body: some Scene {
         WindowGroup {
             CoordinatorView(viewModel: AppViewModel(appDelegate: appDelegate))

@@ -11,14 +11,16 @@ import Swinject
 
 protocol LocationRemoteSource {
     func getUserLoation() -> CLLocationCoordinate2D?
-    func requestAccessToLocation()
+    func checkLocationAuthorization() -> CLAuthorizationStatus
     func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((LocationString) -> Void))
-    func getLocation(forPlaceCalled name: String, completion: @escaping(CLLocation?) -> Void)
+    func getLocation(forPlaceCalled name: String, completion: @escaping(CLLocationCoordinate2D?) -> Void)
 }
 
 class LocationRemoteSourceImpl: LocationRemoteSource {
     
     private var locationManager: LocationManager
+    
+    var authorizationStatus: CLAuthorizationStatus?
     
     init() {
         self.locationManager = LocationManager()
@@ -28,7 +30,7 @@ class LocationRemoteSourceImpl: LocationRemoteSource {
         locationManager.lastKnownLocation
     }
     
-    func requestAccessToLocation() {
+    func checkLocationAuthorization() -> CLAuthorizationStatus {
         locationManager.checkLocationAuthorization()
     }
     
@@ -36,7 +38,7 @@ class LocationRemoteSourceImpl: LocationRemoteSource {
         locationManager.getUserLocationPlaceString(location: location, completion: completion)
     }
     
-    func getLocation(forPlaceCalled name: String, completion: @escaping (CLLocation?) -> Void) {
+    func getLocation(forPlaceCalled name: String, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         locationManager.getLocation(forPlaceCalled: name, completion: completion)
     }
 }

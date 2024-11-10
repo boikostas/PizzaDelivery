@@ -11,9 +11,9 @@ import Swinject
 
 protocol LocationRepository {
     func getUserLocation() -> CLLocationCoordinate2D?
-    func requestAccessToLocation()
+    func checkLocationAuthorization() -> CLAuthorizationStatus
     func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((LocationString) -> Void))
-    func getLocation(forPlaceCalled name: String, completion: @escaping(CLLocation?) -> Void)
+    func getLocation(forPlaceCalled name: String, completion: @escaping(CLLocationCoordinate2D?) -> Void)
 }
 
 class LocationRepositoryImpl: LocationRepository {
@@ -28,15 +28,15 @@ class LocationRepositoryImpl: LocationRepository {
         remoteSource.getUserLoation()
     }
     
-    func requestAccessToLocation() {
-        remoteSource.requestAccessToLocation()
+    func checkLocationAuthorization() -> CLAuthorizationStatus {
+        remoteSource.checkLocationAuthorization()
     }
     
     func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((LocationString) -> Void)) {
         remoteSource.getUserLocationPlaceString(location: location, completion: completion)
     }
     
-    func getLocation(forPlaceCalled name: String, completion: @escaping (CLLocation?) -> Void) {
+    func getLocation(forPlaceCalled name: String, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         remoteSource.getLocation(forPlaceCalled: name, completion: completion)
     }
 }

@@ -8,14 +8,6 @@
 import SwiftUI
 import MapKit
 
-enum Field: Hashable {
-    case address
-    case locationName
-    case floor
-    case apartment
-    case comment
-}
-
 struct MapScreen: View {
     
     @ObservedObject var viewModel: MapScreenViewModel
@@ -29,6 +21,8 @@ struct MapScreen: View {
     
     @State private var animatePointer: Bool = false
     @State private var animatePointerCircle: Bool = false
+    
+    @State private var isAuthorizationDenied: Bool = false
     
     var body: some View {
         ZStack {
@@ -97,13 +91,18 @@ struct MapScreen: View {
             }
         }
         .onAppear {
-            viewModel.requestAccessToLocation()
             viewModel.getUserLoction()
         }
         .onMapCameraChange { mapCameraUpdateContext in
             pointer.startAnimation()
             viewModel.getAddressString(mapCameraUpdateContext.camera.centerCoordinate)
-            
+        }
+        .alert("Can't find you on map", isPresented: $isAuthorizationDenied) {
+//            Button(role: .destructive, action: {}) {
+//
+//            }
+        } message: {
+            Text("Allow PizzaDelivery to access your location in Settings")
         }
     }
     
@@ -195,7 +194,12 @@ struct MapScreen: View {
         }
         .onTapGesture {
             withAnimation {
-                viewModel.getUserLoction()
+                if viewModel.isAuthorizationDenied() {
+                    isAuthorizationDenied = true
+                } else {
+                    isAuthorizationDenied = false
+                    viewModel.getUserLoction()
+                }
             }
         }
     }
@@ -210,7 +214,7 @@ struct MapScreen: View {
                 }
                 
                 VStack(spacing: 10) {
-                    TextFieldView(text: $viewModel.addreessText, placeholder: "Address")
+                    TextFieldView(text: $viewModel.addressText, placeholder: "Address")
                         .focused($focusedField, equals: .address)
                     
                     TextFieldView(text: $viewModel.locationNameText, placeholder: "Location name")
@@ -250,32 +254,5 @@ struct MapScreen: View {
                         }
                 }
             )
-    }
-}
-
-struct KeyboardProvider: ViewModifier {
-    
-    var keyboardHeight: Binding<CGFloat>
-    
-    func body(content: Content) -> some View {
-        content
-            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification),
-                       perform: { notification in
-                guard let userInfo = notification.userInfo,
-                      let keyboardRect = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-                                                            
-                self.keyboardHeight.wrappedValue = keyboardRect.height
-                
-            }).onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification),
-                         perform: { _ in
-                self.keyboardHeight.wrappedValue = 0
-            })
-    }
-}
-
-
-public extension View {
-    func keyboardHeight(_ state: Binding<CGFloat>) -> some View {
-        self.modifier(KeyboardProvider(keyboardHeight: state))
     }
 }
