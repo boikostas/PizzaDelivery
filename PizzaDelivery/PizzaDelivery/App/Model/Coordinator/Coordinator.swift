@@ -26,7 +26,7 @@ enum Screen: Hashable, Identifiable {
 }
 
 enum Sheet: Hashable, Identifiable {
-    case mapScreen(MapScreenViewModel)
+    case findAddressScreen(FindAddressScreenViewModel, ((AddressSearchViewData) -> Void)?)
     
     static func == (lhs: Sheet, rhs: Sheet) -> Bool {
         lhs.id == rhs.id
@@ -108,9 +108,10 @@ class Coordinator: ObservableObject {
     @ViewBuilder
     func build(sheet: Sheet) -> some View {
         switch sheet {
-        case .mapScreen(let mapScreenViewModel):
-            MapScreen(viewModel: mapScreenViewModel)
-                .toolbarVisibility(.hidden, for: .navigationBar)
+        case .findAddressScreen(let findAdressScreenViewModel, let addressSelectedAction):
+            NavigationStack {
+                FindAddressScreen(viewModel: findAdressScreenViewModel, addressSelectedAction: addressSelectedAction)
+            }
         }
     }
     

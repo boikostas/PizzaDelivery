@@ -22,8 +22,11 @@ class MapScreenViewModel: ObservableObject {
     
     private let locationRepo: LocationRepository
     
+    let findAddressScreenViewModel: FindAddressScreenViewModel?
+    
     init(dependencies: Resolver) {
         locationRepo = dependencies.resolve(LocationRepository.self)!
+        findAddressScreenViewModel = FindAddressScreenViewModel(dependencies: dependencies)
     }
     
     func isAuthorizationDenied() -> Bool {
@@ -47,8 +50,8 @@ class MapScreenViewModel: ObservableObject {
         }
     }
     
-    func getLocationFromString() {
-        locationRepo.getLocation(forPlaceCalled: addressText) { [weak self] location in
+    func getLocationFromString(_ string: String) {
+        locationRepo.getLocation(forPlaceCalled: string) { [weak self] location in
             guard let self, let location else { return }
             self.setMapRegion(from: location)
         }

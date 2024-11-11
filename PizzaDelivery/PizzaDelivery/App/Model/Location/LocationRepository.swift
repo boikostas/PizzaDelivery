@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import Swinject
+import MapKit
 
 protocol LocationRepository {
     func getUserLocation() -> CLLocationCoordinate2D?

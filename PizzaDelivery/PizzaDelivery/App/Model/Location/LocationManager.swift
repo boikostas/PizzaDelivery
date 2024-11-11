@@ -7,6 +7,7 @@
 
 import Foundation
 import CoreLocation
+import MapKit
 
 struct LocationString {
     let country: String
@@ -132,5 +133,21 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
             completion(location.coordinate)
         }
     }
+}
+
+extension LocationManager: MKLocalSearchCompleterDelegate {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        
+    }
+}
+
+struct AddressSearchViewData: Identifiable {
+    var id = UUID()
+    var address: String
+    var city: String?
     
+//    init(mapItem: MKMapItem) {
+//        self.address = (mapItem.placemark.thoroughfare ?? "") + " " + (mapItem.placemark.subThoroughfare ?? "")
+//        self.city = mapItem.placemark.locality ?? ""
+//    }
 }

@@ -132,7 +132,7 @@ struct MapScreen: View {
         case .address:
             break
         case .locationName:
-            focusedField = .address
+            presentFindAddressScreen()
         case .floor:
             focusedField = .locationName
         case .apartment:
@@ -215,7 +215,10 @@ struct MapScreen: View {
                 
                 VStack(spacing: 10) {
                     TextFieldView(text: $viewModel.addressText, placeholder: "Address")
-                        .focused($focusedField, equals: .address)
+                        .disabled(true)
+                        .onTapGesture {
+                            presentFindAddressScreen()
+                        }
                     
                     TextFieldView(text: $viewModel.locationNameText, placeholder: "Location name")
                         .focused($focusedField, equals: .locationName)
@@ -254,5 +257,18 @@ struct MapScreen: View {
                         }
                 }
             )
+    }
+    
+    private func presentFindAddressScreen() {
+        if let findAddressScreenViewModel = viewModel.findAddressScreenViewModel {
+            focusedField = nil
+            findAddressScreenViewModel.address = viewModel.addressText
+            coordinator.present(sheet: .findAddressScreen(findAddressScreenViewModel) { address in
+                withAnimation {
+                    self.viewModel.getLocationFromString(address.address + ", \(address.city ?? "")")
+                }
+                self.viewModel.addressText = address.address
+            })
+        }
     }
 }
