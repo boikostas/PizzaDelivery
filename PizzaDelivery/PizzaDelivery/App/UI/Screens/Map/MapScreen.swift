@@ -22,7 +22,9 @@ struct MapScreen: View {
     @State private var animatePointer: Bool = false
     @State private var animatePointerCircle: Bool = false
     
-    @State private var isAuthorizationDenied: Bool = false
+    @State private var isAlertShown: Bool = false
+    
+    @State private var isUserLocationEqualsMapCameraCenter: Bool = false
     
     var body: some View {
         ZStack {
@@ -30,8 +32,10 @@ struct MapScreen: View {
                 VStack {
                     ZStack(alignment: .bottomTrailing) {
                         ZStack {
-                            Map(position: $viewModel.mapCameraPosition)
-                                .offset(y: 30)
+                            Map(position: $viewModel.mapCameraPosition) {
+                                UserAnnotation()
+                            }
+                            .offset(y: 30)
                             pointer
                         }
                         showCurrentLocationButton
@@ -96,15 +100,32 @@ struct MapScreen: View {
         .onMapCameraChange { mapCameraUpdateContext in
             pointer.startAnimation()
             viewModel.getAddressString(mapCameraUpdateContext.camera.centerCoordinate)
+            if let userCoordinates = viewModel.getUserCoordinates() {
+                isUserLocationEqualsMapCameraCenter = areCoordinatesEqual(coord1: userCoordinates, coord2: mapCameraUpdateContext.camera.centerCoordinate)
+            }
         }
-        .alert("Can't find you on map", isPresented: $isAuthorizationDenied) {
-//            Button(role: .destructive, action: {}) {
-//
-//            }
+        .alert("Can't find you on map", isPresented: $isAlertShown) {
+            Button("Go to Settings", role: .cancel) {
+                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else { return }
+                
+                if UIApplication.shared.canOpenURL(settingsUrl) {
+                    UIApplication.shared.open(settingsUrl)
+                }
+            }
+            Button("Close") {
+                isAlertShown = false
+            }
         } message: {
             Text("Allow PizzaDelivery to access your location in Settings")
         }
+        
     }
+    
+    private func areCoordinatesEqual(coord1: CLLocationCoordinate2D, coord2: CLLocationCoordinate2D, threshold: Double = 0.0001) -> Bool {
+            let latDiff = abs(coord1.latitude - coord2.latitude)
+            let lonDiff = abs(coord1.longitude - coord2.longitude)
+            return latDiff < threshold && lonDiff < threshold
+        }
     
     private var pointer: MapPointerView {
         MapPointerView(animate: $animatePointer, animateCircle: $animatePointerCircle)
@@ -188,16 +209,16 @@ struct MapScreen: View {
         ZStack {
             Circle().fill(Asset.Colors.backgroundPrimary)
                 .frame(width: 45, height: 45)
-            Image(systemName: "location.fill")
-                .foregroundStyle(Asset.Colors.foregroundPrimary)
+            Image(systemName: isUserLocationEqualsMapCameraCenter ? "location.fill" : "location")
+                .foregroundStyle(Asset.Colors.orange)
                 .font(.system(size: 18))
         }
         .onTapGesture {
             withAnimation {
                 if viewModel.isAuthorizationDenied() {
-                    isAuthorizationDenied = true
+                    isAlertShown = true
                 } else {
-                    isAuthorizationDenied = false
+                    isAlertShown = false
                     viewModel.getUserLoction()
                 }
             }

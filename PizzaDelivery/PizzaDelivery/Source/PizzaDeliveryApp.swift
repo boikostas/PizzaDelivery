@@ -16,6 +16,7 @@ struct PizzaDeliveryApp: App {
     var body: some Scene {
         WindowGroup {
             CoordinatorView(viewModel: AppViewModel(appDelegate: appDelegate))
+                .onAppear { UIView.appearance().tintColor = UIColor(named: "orangeApp") }
         }
     }
 }

@@ -35,10 +35,14 @@ class MapScreenViewModel: ObservableObject {
     
     func getUserLoction() {
         if locationRepo.checkLocationAuthorization() == .authorizedAlways || locationRepo.checkLocationAuthorization() == .authorizedWhenInUse {
-            if let location = locationRepo.getUserLocation() {
+            if let location = getUserCoordinates() {
                 setMapRegion(from: location)
             }
         }
+    }
+    
+    func getUserCoordinates() -> CLLocationCoordinate2D? {
+        locationRepo.getUserLocation()
     }
     
     func getAddressString(_ location: CLLocationCoordinate2D?) {
