@@ -1,5 +1,5 @@
 {
-  "originHash" : "e9abafa3662729dd065d7b7829917e08dd933a82c7cd4906fbcbb60659ecab36",
+  "originHash" : "c542f5a832679a88b016e2476e1deb9b83171eaf457822721fd93776079d72a5",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -116,6 +116,15 @@
       "state" : {
         "revision" : "ebc7251dd5b37f627c93698e4374084d98409633",
         "version" : "1.28.2"
+      }
+    },
+    {
+      "identity" : "swiftflags",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/andreabusi/SwiftFlags.git",
+      "state" : {
+        "revision" : "9862d08828602e96eaafbb680ba0a53ee41c2dab",
+        "version" : "1.2.0"
       }
     },
     {

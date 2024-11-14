@@ -14,7 +14,7 @@ class MapScreenViewModel: ObservableObject {
     
     @Published var mapCameraPosition: MapCameraPosition = .automatic
     
-    @Published var addressText: String = ""
+    @Published var address: Address = .init(country: "", city: "", address: "")
     @Published var locationNameText: String = ""
     @Published var floorText: String = ""
     @Published var apartmentText: String = ""
@@ -49,7 +49,7 @@ class MapScreenViewModel: ObservableObject {
         if let location = location {
             locationRepo.getUserLocationPlaceString(location: .init(latitude: location.latitude, longitude: location.longitude)) { [weak self] address in
                 guard let self else { return }
-                self.addressText = address.address
+                self.address = address
             }
         }
     }
@@ -58,6 +58,7 @@ class MapScreenViewModel: ObservableObject {
         locationRepo.getLocation(forPlaceCalled: string) { [weak self] location in
             guard let self, let location else { return }
             self.setMapRegion(from: location)
+            self.getAddressString(location)
         }
     }
     

@@ -13,7 +13,7 @@ import MapKit
 protocol LocationRemoteSource {
     func getUserLoation() -> CLLocationCoordinate2D?
     func checkLocationAuthorization() -> CLAuthorizationStatus
-    func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((LocationString) -> Void))
+    func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((Address) -> Void))
     func getLocation(forPlaceCalled name: String, completion: @escaping(CLLocationCoordinate2D?) -> Void)
 }
 
@@ -35,7 +35,7 @@ class LocationRemoteSourceImpl: LocationRemoteSource {
         locationManager.checkLocationAuthorization()
     }
     
-    func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((LocationString) -> Void)) {
+    func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((Address) -> Void)) {
         locationManager.getUserLocationPlaceString(location: location, completion: completion)
     }
     

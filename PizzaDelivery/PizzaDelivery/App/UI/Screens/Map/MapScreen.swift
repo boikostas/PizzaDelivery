@@ -7,6 +7,7 @@
 
 import SwiftUI
 import MapKit
+import SwiftFlags
 
 struct MapScreen: View {
     
@@ -228,14 +229,16 @@ struct MapScreen: View {
     private var addressSection: some View {
             
             VStack(alignment: .leading, spacing: 15) {
-                ResizebleRectangleView {
-                    Text("🇺🇦 Ukraine")
-                        .font(.caption)
-                        .fontWeight(.medium)
+                if let country = viewModel.address.country {
+                    ResizebleRectangleView {
+                        Text("\(SwiftFlags.flag(for: country) ?? "") \(country)")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                    }
                 }
                 
                 VStack(spacing: 10) {
-                    TextFieldView(text: $viewModel.addressText, placeholder: "Address")
+                    TextFieldView(text: $viewModel.address.address, placeholder: "Address")
                         .disabled(true)
                         .onTapGesture {
                             presentFindAddressScreen()
@@ -283,12 +286,11 @@ struct MapScreen: View {
     private func presentFindAddressScreen() {
         if let findAddressScreenViewModel = viewModel.findAddressScreenViewModel {
             focusedField = nil
-            findAddressScreenViewModel.address = viewModel.addressText
+            findAddressScreenViewModel.address = viewModel.address.address
             coordinator.present(sheet: .findAddressScreen(findAddressScreenViewModel) { address in
                 withAnimation {
                     self.viewModel.getLocationFromString(address.address + ", \(address.city ?? "")")
                 }
-                self.viewModel.addressText = address.address
             })
         }
     }

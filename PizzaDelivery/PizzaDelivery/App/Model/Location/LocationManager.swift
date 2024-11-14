@@ -9,10 +9,11 @@ import Foundation
 import CoreLocation
 import MapKit
 
-struct LocationString {
-    let country: String
-    let city: String
-    let address: String
+struct Address: Identifiable {
+    var id = UUID()
+    var country: String?
+    var city: String?
+    var address: String
 }
 
 class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
@@ -76,7 +77,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
     }
     
-    func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((LocationString) -> Void)) {
+    func getUserLocationPlaceString(location: CLLocation, completion: @escaping ((Address) -> Void)) {
         var country = ""
         var city = ""
         var address = ""
@@ -100,7 +101,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate, ObservableObject {
                 country = countryName
             }
             
-            let locationString = LocationString(country: country, city: city, address: address)
+            let locationString = Address(country: country, city: city, address: address)
             
             completion(locationString)
         }
@@ -141,13 +142,13 @@ extension LocationManager: MKLocalSearchCompleterDelegate {
     }
 }
 
-struct AddressSearchViewData: Identifiable {
-    var id = UUID()
-    var address: String
-    var city: String?
+//struct AddressSearchViewData: Identifiable {
+//    var id = UUID()
+//    var address: String
+//    var city: String?
     
 //    init(mapItem: MKMapItem) {
 //        self.address = (mapItem.placemark.thoroughfare ?? "") + " " + (mapItem.placemark.subThoroughfare ?? "")
 //        self.city = mapItem.placemark.locality ?? ""
 //    }
-}
+//}

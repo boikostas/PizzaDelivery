@@ -14,7 +14,7 @@ struct FindAddressScreen: View {
     
     @FocusState private var focusedField: Field?
     
-    let addressSelectedAction: ((AddressSearchViewData) -> Void)?
+    let addressSelectedAction: ((Address) -> Void)?
     
     var body: some View {
         VStack(alignment: .leading) {

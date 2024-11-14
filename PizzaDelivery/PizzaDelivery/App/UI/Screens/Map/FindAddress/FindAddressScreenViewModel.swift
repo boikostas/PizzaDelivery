@@ -16,7 +16,7 @@ class FindAddressScreenViewModel: NSObject, ObservableObject {
             handleSearchFragment(address)
         }
     }
-    @Published var locations: [AddressSearchViewData] = []
+    @Published var locations: [Address] = []
     @Published var status: SearchStatus = .idle
     var completer: MKLocalSearchCompleter
     
@@ -52,7 +52,7 @@ extension FindAddressScreenViewModel: MKLocalSearchCompleterDelegate {
     
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
         self.locations = completer.results.map({ result in
-            AddressSearchViewData(address: result.title, city: result.subtitle)
+            Address(city: result.subtitle, address: result.title)
         })
         
         self.status = .result

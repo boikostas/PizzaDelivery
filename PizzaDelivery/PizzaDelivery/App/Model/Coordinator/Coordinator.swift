@@ -26,7 +26,7 @@ enum Screen: Hashable, Identifiable {
 }
 
 enum Sheet: Hashable, Identifiable {
-    case findAddressScreen(FindAddressScreenViewModel, ((AddressSearchViewData) -> Void)?)
+    case findAddressScreen(FindAddressScreenViewModel, ((Address) -> Void)?)
     
     static func == (lhs: Sheet, rhs: Sheet) -> Bool {
         lhs.id == rhs.id

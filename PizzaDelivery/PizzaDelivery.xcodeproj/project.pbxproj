@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2971F90D2CB6BE55005E430F /* Swinject in Frameworks */ = {isa = PBXBuildFile; productRef = 2971F90C2CB6BE55005E430F /* Swinject */; };
+		298A99712CE6723C009E18A5 /* SwiftFlags in Frameworks */ = {isa = PBXBuildFile; productRef = 298A99702CE6723C009E18A5 /* SwiftFlags */; };
 		299210872CB6A3CD00BA4E54 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 299210862CB6A3CD00BA4E54 /* FirebaseAuth */; };
 		299210892CB6A3CD00BA4E54 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 299210882CB6A3CD00BA4E54 /* FirebaseFirestore */; };
 /* End PBXBuildFile section */
@@ -29,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				298A99712CE6723C009E18A5 /* SwiftFlags in Frameworks */,
 				299210872CB6A3CD00BA4E54 /* FirebaseAuth in Frameworks */,
 				299210892CB6A3CD00BA4E54 /* FirebaseFirestore in Frameworks */,
 				2971F90D2CB6BE55005E430F /* Swinject in Frameworks */,
@@ -77,6 +79,7 @@
 				299210862CB6A3CD00BA4E54 /* FirebaseAuth */,
 				299210882CB6A3CD00BA4E54 /* FirebaseFirestore */,
 				2971F90C2CB6BE55005E430F /* Swinject */,
+				298A99702CE6723C009E18A5 /* SwiftFlags */,
 			);
 			productName = PizzaDelivery;
 			productReference = 299210722CB6A0C500BA4E54 /* PizzaDelivery.app */;
@@ -109,6 +112,7 @@
 			packageReferences = (
 				299210852CB6A3CD00BA4E54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				2971F90B2CB6BE55005E430F /* XCRemoteSwiftPackageReference "Swinject" */,
+				298A996F2CE6723C009E18A5 /* XCRemoteSwiftPackageReference "SwiftFlags" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 299210732CB6A0C500BA4E54 /* Products */;
@@ -352,6 +356,14 @@
 				minimumVersion = 2.9.1;
 			};
 		};
+		298A996F2CE6723C009E18A5 /* XCRemoteSwiftPackageReference "SwiftFlags" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/andreabusi/SwiftFlags.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		299210852CB6A3CD00BA4E54 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -367,6 +379,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2971F90B2CB6BE55005E430F /* XCRemoteSwiftPackageReference "Swinject" */;
 			productName = Swinject;
+		};
+		298A99702CE6723C009E18A5 /* SwiftFlags */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 298A996F2CE6723C009E18A5 /* XCRemoteSwiftPackageReference "SwiftFlags" */;
+			productName = SwiftFlags;
 		};
 		299210862CB6A3CD00BA4E54 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
